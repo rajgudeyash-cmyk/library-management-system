@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | Library Management{% endblock %}
+{% block content %}
+<section class="welcome">
+  <div><p class="eyebrow">LIBRARY ADMINISTRATION</p><h1>Library Dashboard</h1><p class="muted">A simple overview of your departmental library.</p></div>
+  <a class="button" href="{{ url_for('add_book') }}">＋ Add a book</a>
+</section>
+<section class="stats">
+  <article class="stat blue"><div class="stat-icon">👥</div><p>Total Members</p><strong>{{ stats.members }}</strong><small>Registered readers</small></article>
+  <article class="stat violet"><div class="stat-icon">📚</div><p>Total Book Copies</p><strong>{{ stats.books }}</strong><small>Across the catalogue</small></article>
+  <article class="stat green"><div class="stat-icon">✓</div><p>Available Copies</p><strong>{{ stats.available }}</strong><small>Ready to issue</small></article>
+  <article class="stat orange"><div class="stat-icon">↗</div><p>Books Issued</p><strong>{{ stats.issued }}</strong><small>Currently borrowed</small></article>
+</section>
+<section class="panel">
+  <div class="panel-heading"><div><h2>Popular books</h2><p class="muted">A quick look at the catalogue</p></div><a class="text-link" href="{{ url_for('books') }}">View all books →</a></div>
+  {% if books %}
+  <div class="table-wrap"><table><thead><tr><th>Book title</th><th>Author</th><th>Category</th><th>Availability</th></tr></thead><tbody>
+  {% for book in books %}<tr><td><span class="book-mark">▤</span><b>{{ book.title }}</b></td><td>{{ book.author or '—' }}</td><td>{{ book.category or 'General' }}</td><td><span class="badge {{ 'available' if book.available_copies else 'unavailable' }}">{{ book.available_copies }} available</span></td></tr>{% endfor %}
+  </tbody></table></div>
+  {% else %}<div class="empty">No books yet. Add your first book to get started.</div>{% endif %}
+</section>
+<section class="quick-links">
+  <a href="{{ url_for('members') }}"><span>👥</span><div><b>Manage members</b><small>View and register readers</small></div><strong>→</strong></a>
+  <a href="{{ url_for('books') }}"><span>📖</span><div><b>Book catalogue</b><small>Search and manage books</small></div><strong>→</strong></a>
+  <a href="{{ url_for('allocations') }}"><span>🔄</span><div><b>Issue / Return</b><small>Track borrowed books</small></div><strong>→</strong></a>
+</section>
+{% endblock %}

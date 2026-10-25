@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block title %}Members | Library Management{% endblock %}
+{% block content %}
+<section class="page-head"><div><p class="eyebrow">PEOPLE</p><h1>Library Members</h1><p class="muted">Manage registered students and readers.</p></div><a class="button" href="{{ url_for('add_member') }}">＋ Add member</a></section>
+<form class="searchbar" method="get"><input name="q" value="{{ q }}" placeholder="Search name, username, class or email…"><button class="button">Search</button>{% if q %}<a class="button secondary" href="{{ url_for('members') }}">Clear</a>{% endif %}</form>
+<section class="panel"><div class="panel-heading"><h2>All members <span class="count">{{ members|length }}</span></h2></div>
+{% if members %}<div class="table-wrap"><table><thead><tr><th>Member</th><th>Class</th><th>Email</th><th>Mobile</th><th>Username</th><th>Action</th></tr></thead><tbody>
+{% for m in members %}<tr><td><div class="person"><span class="avatar">{{ m.name[:1]|upper }}</span><b>{{ m.name }}</b></div></td><td>{{ m.class_name or '—' }}</td><td>{{ m.email or '—' }}</td><td>{{ m.mobile or '—' }}</td><td>{{ m.username }}</td><td><form method="post" action="{{ url_for('delete_member', member_id=m.id) }}" onsubmit="return confirm('Delete this member?')"><button class="danger-link">Delete</button></form></td></tr>{% endfor %}
+</tbody></table></div>{% else %}<div class="empty">No members found. Add a member to get started.</div>{% endif %}
+</section>{% endblock %}

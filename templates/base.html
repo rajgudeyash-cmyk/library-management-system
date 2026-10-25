@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Library Management{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="{{ url_for('index') }}"><span class="brand-icon">▤</span><span>Departmental<br><b>Library System</b></span></a>
+  <button class="menu-toggle" onclick="document.querySelector('.nav').classList.toggle('open')" aria-label="Toggle navigation">☰</button>
+  <nav class="nav">
+    <a href="{{ url_for('index') }}">Dashboard</a>
+    <a href="{{ url_for('members') }}">Members</a>
+    <a href="{{ url_for('books') }}">Books</a>
+    <a href="{{ url_for('allocations') }}">Issue / Return</a>
+    {% if session.get('member_id') %}
+      <a href="{{ url_for('profile') }}">My Profile</a>
+      <form method="post" action="{{ url_for('logout') }}"><button class="nav-logout">Log out</button></form>
+    {% else %}
+      <a class="nav-login" href="{{ url_for('login') }}">Login</a>
+    {% endif %}
+  </nav>
+</header>
+<main class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}{% for category, message in messages %}
+      <div class="flash {{ category }}">{{ message }}</div>
+    {% endfor %}{% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+<footer>Departmental Library Management System <span>•</span> Built with Flask & SQLite</footer>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block title %}Books | Library Management{% endblock %}
+{% block content %}
+<section class="page-head"><div><p class="eyebrow">CATALOGUE</p><h1>Book Management</h1><p class="muted">Browse and manage the library collection.</p></div><a class="button" href="{{ url_for('add_book') }}">＋ Add book</a></section>
+<form class="searchbar" method="get"><input name="q" value="{{ q }}" placeholder="Search title, author or category…"><button class="button">Search</button>{% if q %}<a class="button secondary" href="{{ url_for('books') }}">Clear</a>{% endif %}</form>
+<section class="panel"><div class="panel-heading"><h2>Book catalogue <span class="count">{{ books|length }}</span></h2></div>
+{% if books %}<div class="table-wrap"><table><thead><tr><th>Title</th><th>Author</th><th>Category</th><th>Total copies</th><th>Available</th><th>Action</th></tr></thead><tbody>
+{% for b in books %}<tr><td><span class="book-mark">▤</span><b>{{ b.title }}</b></td><td>{{ b.author or '—' }}</td><td>{{ b.category or 'General' }}</td><td>{{ b.total_copies }}</td><td><span class="badge {{ 'available' if b.available_copies else 'unavailable' }}">{{ b.available_copies }}</span></td><td><form method="post" action="{{ url_for('delete_book', book_id=b.id) }}" onsubmit="return confirm('Delete this book?')"><button class="danger-link">Delete</button></form></td></tr>{% endfor %}
+</tbody></table></div>{% else %}<div class="empty">No books found. Add a book to get started.</div>{% endif %}
+</section>{% endblock %}

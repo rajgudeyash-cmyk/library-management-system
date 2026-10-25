@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block title %}Add Member | Library Management{% endblock %}
+{% block content %}
+<section class="page-head"><div><p class="eyebrow">MEMBERS</p><h1>Register a member</h1><p class="muted">Enter the reader's details below.</p></div><a class="button secondary" href="{{ url_for('members') }}">← Back</a></section>
+<form class="panel form-panel" method="post"><div class="form-grid">
+<label>Full name *<input name="name" required value="{{ member.get('name','') }}" placeholder="e.g. Priya Sharma"></label>
+<label>Class / Department<input name="class_name" value="{{ member.get('class_name','') }}" placeholder="e.g. B.Sc. Computer Science"></label>
+<label>Email<input type="email" name="email" value="{{ member.get('email','') }}" placeholder="student@example.com"></label>
+<label>Mobile number<input name="mobile" value="{{ member.get('mobile','') }}" placeholder="Phone number"></label>
+<label>Username *<input name="username" required value="{{ member.get('username','') }}" autocomplete="username"></label>
+<label>Password *<input type="password" name="password" required autocomplete="new-password"></label>
+</div><p class="hint">Fields marked * are required.</p><button class="button">Save member</button></form>
+{% endblock %}

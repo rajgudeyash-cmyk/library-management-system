@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block title %}Issue / Return | Library Management{% endblock %}
+{% block content %}
+<section class="page-head"><div><p class="eyebrow">CIRCULATION</p><h1>Issue & Return Books</h1><p class="muted">Allocate available books to registered members and record returns.</p></div></section>
+<section class="panel"><div class="panel-heading"><div><h2>Issue a book</h2><p class="muted">Choose a member and an available title.</p></div></div>
+{% if members and books %}<form class="issue-form" method="post"><label>Member<select name="member_id" required><option value="">Select member</option>{% for m in members %}<option value="{{ m.id }}">{{ m.name }} ({{ m.username }})</option>{% endfor %}</select></label><label>Book<select name="book_id" required><option value="">Select book</option>{% for b in books %}<option value="{{ b.id }}">{{ b.title }} — {{ b.available_copies }} available</option>{% endfor %}</select></label><button class="button">Issue book</button></form>{% else %}<div class="empty">Add at least one member and one available book before issuing.</div>{% endif %}
+</section>
+<section class="panel"><div class="panel-heading"><h2>Allocation history <span class="count">{{ allocations|length }}</span></h2></div>
+{% if allocations %}<div class="table-wrap"><table><thead><tr><th>Member</th><th>Book</th><th>Issue date</th><th>Return date</th><th>Status</th><th>Action</th></tr></thead><tbody>
+{% for a in allocations %}<tr><td>{{ a.member_name }}</td><td><b>{{ a.book_title }}</b></td><td>{{ a.issue_date }}</td><td>{{ a.return_date or '—' }}</td><td><span class="badge {{ 'available' if a.status == 'Returned' else 'issued' }}">{{ a.status }}</span></td><td>{% if a.status == 'Issued' %}<form method="post" action="{{ url_for('return_book', allocation_id=a.id) }}"><button class="button small">Mark returned</button></form>{% else %}—{% endif %}</td></tr>{% endfor %}
+</tbody></table></div>{% else %}<div class="empty">No books have been allocated yet.</div>{% endif %}
+</section>{% endblock %}

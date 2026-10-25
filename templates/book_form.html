@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block title %}Add Book | Library Management{% endblock %}
+{% block content %}
+<section class="page-head"><div><p class="eyebrow">CATALOGUE</p><h1>Add a book</h1><p class="muted">Add a title to your library collection.</p></div><a class="button secondary" href="{{ url_for('books') }}">← Back</a></section>
+<form class="panel form-panel" method="post"><div class="form-grid">
+<label>Book title *<input name="title" required value="{{ book.get('title','') }}" placeholder="Enter book title"></label>
+<label>Author<input name="author" value="{{ book.get('author','') }}" placeholder="Author name"></label>
+<label>Category<input name="category" value="{{ book.get('category','') }}" placeholder="e.g. Science, Fiction"></label>
+<label>Total copies<input type="number" name="total_copies" min="0" value="{{ book.get('total_copies',1) }}" required></label>
+</div><button class="button">Save book</button></form>
+{% endblock %}
